@@ -15,46 +15,6 @@ canvas {
   height: 100%;
 }
 
-.nick {
-  position: absolute;
-  top:50%;
-  left:50%;
-  margin: 0;
-  padding:20px;
-  z-index:100;
-  font-size: 80pt;
-  font-weight: 900;
-  color: white;
-  text-shadow: 0 0 16px #604161;
-  transform: translate(-50%, -50%);
-}
-
-a {
-	height: 58px;
-}
-
-#nav-box {
-  position: absolute;
-  left:50%;
-  transform: translate(-50%);
-  width: 190px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  top: -13px;
-  padding-top: 18px;
-  z-index: 1;
-  border-radius: 20px;
-  box-shadow: 1px 1px 35px rgba(150, 255, 255, 0.05);
-}
-
-nav {
-    background-color: transparent;
-    -webkit-transition: background-color 0.5s ease-in-out;
-}
-/* Transparent Nav Stuff END */
-
 /*Tooltips*/
 button[data-balloon] {
   overflow: visible; }
