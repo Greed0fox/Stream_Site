@@ -11,9 +11,6 @@ canvas {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: #272a43;
-  background-size: 100%;
-  background-position: 50% 50%;
 } /* ---- stats.js ---- */
 .count-particles {
   background: #000022;
