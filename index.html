@@ -90,25 +90,33 @@
   
   // ----------- Анимация цвета ----------- //
   
-  function interpolateColor(color1, color2, factor) {
-    var result = color1.slice();
-    for (var i = 0; i < 3; i++) {
-      result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
+function interpolateColor(color1, color2, factor) {
+  return color1.map((c, i) => Math.round(c + factor * (color2[i] - c)));
+}
+
+function hexToRgb(hex) {
+  const bigint = parseInt(hex.replace("#", ""), 16);
+  return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+}
+
+const colorStart = hexToRgb("#a22039");
+const colorEnd = hexToRgb("#3b2975");
+
+function animateColorIndividually() {
+  const particles = window.pJSDom[0].pJS.particles;
+
+  particles.array.forEach((p) => {
+    // Инициализируем индивидуальные параметры, если ещё не были заданы
+    if (!p.colorAnim) {
+      p.colorAnim = {
+        factor: Math.random(),
+        increasing: Math.random() > 0.5
+      };
     }
-    return result;
-  }
-  
-  function hexToRgb(hex) {
-    var bigint = parseInt(hex.replace("#", ""), 16);
-    return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
-  }
-  
-  const colorStart = hexToRgb("#a22039");
-  const colorEnd = hexToRgb("#3b2975");
-  let factor = 0;
-  let increasing = true;
-  
-  function animateColor() {
+
+    let { factor, increasing } = p.colorAnim;
+
+    // Обновляем factor
     factor += increasing ? 0.005 : -0.005;
     if (factor >= 1) {
       factor = 1;
@@ -117,25 +125,28 @@
       factor = 0;
       increasing = true;
     }
-  
+
+    // Применяем цвет к частице
     const interpolatedColor = interpolateColor(colorStart, colorEnd, factor);
-    const particles = window.pJSDom[0].pJS.particles;
-  
-    // Применяем новый цвет к каждой частице
-    particles.array.forEach((p) => {
-      p.color.rgb = {
-        r: interpolatedColor[0],
-        g: interpolatedColor[1],
-        b: interpolatedColor[2]
-      };
-      p.color.value = `rgb(${interpolatedColor[0]}, ${interpolatedColor[1]}, ${interpolatedColor[2]})`;
-      p.stroke_color = p.color; // если stroke включен
-    });
-  
-    requestAnimationFrame(animateColor);
-  }
-  
-  requestAnimationFrame(animateColor);
+    p.color.rgb = {
+      r: interpolatedColor[0],
+      g: interpolatedColor[1],
+      b: interpolatedColor[2]
+    };
+    p.color.value = `rgb(${interpolatedColor[0]}, ${interpolatedColor[1]}, ${interpolatedColor[2]})`;
+    p.stroke_color = p.color; // если включён обводка
+
+    // Обновляем состояние анимации частицы
+    p.colorAnim.factor = factor;
+    p.colorAnim.increasing = increasing;
+  });
+
+  requestAnimationFrame(animateColorIndividually);
+}
+
+// Стартуем анимацию
+requestAnimationFrame(animateColorIndividually);
+
   </script>
 
 </body>
