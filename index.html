@@ -28,7 +28,10 @@
 
 <body>
   <!-- Particles -->
-  <div id="particles-js"></div>
+  <div id="wrapper">
+    <div id="ring"></div> <!-- светящееся кольцо -->
+    <div id="particles-js"></div>
+  </div>
 
   <script src="js/particles-app.js"></script>
   <!-- / Particles -->
@@ -37,10 +40,10 @@
     particlesJS("particles-js", {
       particles: {
         number: {
-          value: 350,
+          value: 250,
           density: {
             enable: true,
-            value_area: 350
+            value_area: 300 // более плотное распределение в центре
           }
         },
         color: {
@@ -64,7 +67,7 @@
           anim: {
             enable: true,
             speed: 1,
-            opacity_min: 0.1, // 🔧 минимальное значение для "почти невидимых"
+            opacity_min: 0.1,
             sync: false
           }
         },
@@ -73,8 +76,8 @@
           random: true,
           anim: {
             enable: true,
-            speed: 3,
-            size_min: 1.2, // 🔧 меньше = меньше "blur", больше = более размытые фазы
+            speed: 2.5,
+            size_min: 1.2,
             sync: false
           }
         },
@@ -87,19 +90,15 @@
           direction: "none",
           random: true,
           straight: false,
-          out_mode: "out",
-          bounce: false
+          out_mode: "bounce", // чтобы не улетали за пределы
+          bounce: true
         }
       },
       interactivity: {
         detect_on: "canvas",
         events: {
-          onhover: {
-            enable: false
-          },
-          onclick: {
-            enable: false
-          },
+          onhover: { enable: false },
+          onclick: { enable: false },
           resize: true
         }
       },
