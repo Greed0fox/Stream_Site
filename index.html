@@ -28,13 +28,13 @@
 
 <body>
   <!-- Particles -->
-  <script src="js/particles.js"></script>
+  <div id="particles-js"></div>
 
   <script src="js/particles-app.js"></script>
   <!-- / Particles -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    particlesJS("particles-js", {
+  particlesJS("particles-js", {
     particles: {
       number: {
         value: 210,
@@ -67,7 +67,7 @@
       move: {
         enable: true,
         speed: 1,
-        direction: "none",
+        direction: "nonea",
         random: true,
         straight: false,
         out_mode: "out",
@@ -91,7 +91,9 @@
       }
     },
     retina_detect: true
+  });
   </script>
+
 </body>
 
 </html>
