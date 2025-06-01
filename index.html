@@ -90,63 +90,68 @@
   
   // ----------- Анимация цвета ----------- //
   
-function interpolateColor(color1, color2, factor) {
-  return color1.map((c, i) => Math.round(c + factor * (color2[i] - c)));
-}
-
-function hexToRgb(hex) {
-  const bigint = parseInt(hex.replace("#", ""), 16);
-  return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
-}
-
-const colorStart = hexToRgb("#a22039");
-const colorEnd = hexToRgb("#3b2975");
-
-function animateColorIndividually() {
-  const particles = window.pJSDom[0].pJS.particles;
-
-  particles.array.forEach((p) => {
-    // Инициализируем индивидуальные параметры, если ещё не были заданы
-    if (!p.colorAnim) {
-      p.colorAnim = {
-        factor: Math.random(),
-        increasing: Math.random() > 0.5
+  function interpolateColor(color1, color2, factor) {
+    return color1.map((c, i) => Math.round(c + factor * (color2[i] - c)));
+  }
+  
+  function hexToRgb(hex) {
+    const bigint = parseInt(hex.replace("#", ""), 16);
+    return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+  }
+  
+  const colorStart = hexToRgb("#a22039");
+  const colorEnd = hexToRgb("#3b2975");
+  
+  function animateColorRandomly() {
+    const particles = window.pJSDom[0].pJS.particles;
+  
+    particles.array.forEach((p) => {
+      // Инициализация параметров, если их ещё нет
+      if (!p.colorAnim) {
+        p.colorAnim = {
+          factor: Math.random(),
+          increasing: Math.random() > 0.5,
+          delay: Math.floor(Math.random() * 100), // задержка перед обновлением
+          tick: 0
+        };
+      }
+  
+      const anim = p.colorAnim;
+  
+      anim.tick++;
+  
+      // Если не пришло время обновлять — скипаем
+      if (anim.tick < anim.delay) return;
+  
+      // Обновляем factor
+      anim.factor += anim.increasing ? 0.01 : -0.01;
+      if (anim.factor >= 1) {
+        anim.factor = 1;
+        anim.increasing = false;
+        anim.delay = Math.floor(Math.random() * 100); // новая задержка
+        anim.tick = 0;
+      } else if (anim.factor <= 0) {
+        anim.factor = 0;
+        anim.increasing = true;
+        anim.delay = Math.floor(Math.random() * 100); // новая задержка
+        anim.tick = 0;
+      }
+  
+      // Вычисляем цвет
+      const interpolatedColor = interpolateColor(colorStart, colorEnd, anim.factor);
+      p.color.rgb = {
+        r: interpolatedColor[0],
+        g: interpolatedColor[1],
+        b: interpolatedColor[2]
       };
-    }
-
-    let { factor, increasing } = p.colorAnim;
-
-    // Обновляем factor
-    factor += increasing ? 0.005 : -0.005;
-    if (factor >= 1) {
-      factor = 1;
-      increasing = false;
-    } else if (factor <= 0) {
-      factor = 0;
-      increasing = true;
-    }
-
-    // Применяем цвет к частице
-    const interpolatedColor = interpolateColor(colorStart, colorEnd, factor);
-    p.color.rgb = {
-      r: interpolatedColor[0],
-      g: interpolatedColor[1],
-      b: interpolatedColor[2]
-    };
-    p.color.value = `rgb(${interpolatedColor[0]}, ${interpolatedColor[1]}, ${interpolatedColor[2]})`;
-    p.stroke_color = p.color; // если включён обводка
-
-    // Обновляем состояние анимации частицы
-    p.colorAnim.factor = factor;
-    p.colorAnim.increasing = increasing;
-  });
-
-  requestAnimationFrame(animateColorIndividually);
-}
-
-// Стартуем анимацию
-requestAnimationFrame(animateColorIndividually);
-
+      p.color.value = `rgb(${interpolatedColor[0]}, ${interpolatedColor[1]}, ${interpolatedColor[2]})`;
+      p.stroke_color = p.color;
+    });
+  
+    requestAnimationFrame(animateColorRandomly);
+  }
+  
+  requestAnimationFrame(animateColorRandomly);
   </script>
 
 </body>
