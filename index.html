@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Particle Ring</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #0a0a0a;
+      overflow: hidden;
+      height: 100%;
+    }
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="ring"></canvas>
+  <script>
+    const canvas = document.getElementById('ring');
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = window.innerWidth;
+    let h = canvas.height = window.innerHeight;
+
+    const centerX = w / 2;
+    const centerY = h / 2;
+    const RADIUS = 250; // Радиус кольца как на изображении
+    const PARTICLE_COUNT = 230;
+    const PARTICLE_SIZE = 2.5;
+
+    const COLORS = [
+      "#a22039", "#a22039", "#a22039", "#a22039", "#a22039",
+      "#67144f", "#67144f", "#67144f",
+      "#3b2975", "#3b2975",
+      "#ca9c6d"
+    ];
+
+    const particles = [];
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const angle = (Math.PI * 2 / PARTICLE_COUNT) * i;
+      const radiusOffset = Math.random() * 5 - 2.5; // небольшое колебание
+      particles.push({
+        angle,
+        baseRadius: RADIUS + radiusOffset,
+        radius: RADIUS + radiusOffset,
+        size: PARTICLE_SIZE + Math.random() * 1.5,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        offset: Math.random() * 100,
+        speed: 0.002 + Math.random() * 0.003
+      });
+    }
+
+    function animate(time) {
+      ctx.clearRect(0, 0, w, h);
+
+      for (const p of particles) {
+        // Радиальное пульсирование
+        const pulsate = Math.sin(time * p.speed + p.offset) * 2;
+        const r = p.baseRadius + pulsate;
+
+        const x = centerX + r * Math.cos(p.angle);
+        const y = centerY + r * Math.sin(p.angle);
+
+        ctx.beginPath();
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = 0.6 + Math.sin(time * p.speed + p.offset) * 0.3;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = p.color;
+        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+
+    window.addEventListener('resize', () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
