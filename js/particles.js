@@ -6,13 +6,14 @@
 /* How to use? : Check the GitHub README
 /* v2.0.0
 /* ----------------------------------------------- */
+// JS
 particlesJS("particles-js", {
   particles: {
     number: {
       value: 210,
       density: { enable: true, value_area: 236.74802907265777 }
     },
-    color: { value: "#ff0068" },
+    color: { value: "#a22039" }, // стартовый цвет
     shape: {
       type: "circle",
       stroke: { width: 0, color: "#000000" },
@@ -30,11 +31,7 @@ particlesJS("particles-js", {
       anim: { enable: false, speed: 4, size_min: 0.3, sync: false }
     },
     line_linked: {
-      enable: false,
-      distance: 150,
-      color: "#ff0068",
-      opacity: 0.4,
-      width: 1
+      enable: false
     },
     move: {
       enable: true,
@@ -43,42 +40,76 @@ particlesJS("particles-js", {
       random: true,
       straight: false,
       out_mode: "out",
-      bounce: false,
-      attract: { enable: false, rotateX: 600, rotateY: 600 }
+      bounce: false
     }
   },
   interactivity: {
     detect_on: "canvas",
     events: {
-      onhover: { enable: false, mode: "bubble" },
-      onclick: { enable: false, mode: "repulse" },
+      onhover: { enable: false },
+      onclick: { enable: false },
       resize: true
-    },
-    modes: {
-      grab: { distance: 400, line_linked: { opacity: 1 } },
-      bubble: { distance: 250, size: 0, duration: 2, opacity: 0, speed: 3 },
-      repulse: { distance: 400, duration: 0.4 },
-      push: { particles_nb: 4 },
-      remove: { particles_nb: 2 }
     }
   },
   retina_detect: true
 });
-var count_particles, stats, update;
-stats = new Stats();
-stats.setMode(0);
-stats.domElement.style.position = "absolute";
-stats.domElement.style.left = "0px";
-stats.domElement.style.top = "0px";
-document.body.appendChild(stats.domElement);
-count_particles = document.querySelector(".js-count-particles");
-update = function () {
-  stats.begin();
-  stats.end();
-  if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-    count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+
+// Функция для интерполяции цвета
+function interpolateColor(color1, color2, factor) {
+  var result = color1.slice();
+  for (var i = 0; i < 3; i++) {
+    result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
   }
-  requestAnimationFrame(update);
-};
-requestAnimationFrame(update);
+  return result;
+}
+
+function hexToRgb(hex) {
+  var bigint = parseInt(hex.replace("#", ""), 16);
+  return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+}
+
+function rgbToHex(rgb) {
+  return (
+    "#" +
+    rgb
+      .map((x) => {
+        const hex = x.toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+      })
+      .join("")
+  );
+}
+
+// Цвета для анимации
+const colorStart = hexToRgb("#a22039");
+const colorEnd = hexToRgb("#3b2975");
+
+let factor = 0;
+let increasing = true;
+
+function animateColor() {
+  factor += increasing ? 0.005 : -0.005;
+  if (factor >= 1) {
+    factor = 1;
+    increasing = false;
+  } else if (factor <= 0) {
+    factor = 0;
+    increasing = true;
+  }
+
+  const interpolatedColor = rgbToHex(interpolateColor(colorStart, colorEnd, factor));
+
+  const particles = window.pJSDom[0].pJS.particles;
+  particles.color.value = interpolatedColor;
+  particles.color.rgb = hexToRgb(interpolatedColor);
+
+  // Применим к каждой частице
+  particles.array.forEach((p) => {
+    p.color.value = interpolatedColor;
+    p.color.rgb = hexToRgb(interpolatedColor);
+  });
+
+  requestAnimationFrame(animateColor);
+}
+animateColor();
 
