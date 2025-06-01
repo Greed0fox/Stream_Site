@@ -11,14 +11,13 @@ particlesJS.load('particles-js', 'particles.json', function() {
 
 /* Otherwise just put the config content (json): */
 
-// JS
 particlesJS("particles-js", {
   particles: {
     number: {
       value: 210,
       density: { enable: true, value_area: 236.74802907265777 }
     },
-    color: { value: "#a22039" }, // стартовый цвет
+    color: { value: "#a22039" },
     shape: {
       type: "circle",
       stroke: { width: 0, color: "#000000" },
@@ -51,15 +50,23 @@ particlesJS("particles-js", {
   interactivity: {
     detect_on: "canvas",
     events: {
-      onhover: { enable: false },
-      onclick: { enable: false },
+      onhover: { enable: false, mode: "bubble" },
+      onclick: { enable: false, mode: "repulse" },
       resize: true
+    },
+    modes: {
+      grab: { distance: 400, line_linked: { opacity: 1 } },
+      bubble: { distance: 250, size: 0, duration: 2, opacity: 0, speed: 3 },
+      repulse: { distance: 400, duration: 0.4 },
+      push: { particles_nb: 4 },
+      remove: { particles_nb: 2 }
     }
   },
   retina_detect: true
 });
 
-// Функция для интерполяции цвета
+// ----------- Анимация цвета ----------- //
+
 function interpolateColor(color1, color2, factor) {
   var result = color1.slice();
   for (var i = 0; i < 3; i++) {
@@ -85,10 +92,8 @@ function rgbToHex(rgb) {
   );
 }
 
-// Цвета для анимации
 const colorStart = hexToRgb("#a22039");
 const colorEnd = hexToRgb("#3b2975");
-
 let factor = 0;
 let increasing = true;
 
@@ -103,12 +108,11 @@ function animateColor() {
   }
 
   const interpolatedColor = rgbToHex(interpolateColor(colorStart, colorEnd, factor));
-
   const particles = window.pJSDom[0].pJS.particles;
+
+  // Обновляем цвет частиц
   particles.color.value = interpolatedColor;
   particles.color.rgb = hexToRgb(interpolatedColor);
-
-  // Применим к каждой частице
   particles.array.forEach((p) => {
     p.color.value = interpolatedColor;
     p.color.rgb = hexToRgb(interpolatedColor);
@@ -116,4 +120,24 @@ function animateColor() {
 
   requestAnimationFrame(animateColor);
 }
-animateColor();
+requestAnimationFrame(animateColor);
+
+// ----------- Статистика ----------- //
+
+var count_particles, stats, update;
+stats = new Stats();
+stats.setMode(0);
+stats.domElement.style.position = "absolute";
+stats.domElement.style.left = "0px";
+stats.domElement.style.top = "0px";
+document.body.appendChild(stats.domElement);
+count_particles = document.querySelector(".js-count-particles");
+update = function () {
+  stats.begin();
+  stats.end();
+  if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
+    count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
+  }
+  requestAnimationFrame(update);
+};
+requestAnimationFrame(update);
