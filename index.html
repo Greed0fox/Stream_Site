@@ -103,18 +103,6 @@
     return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
   }
   
-  function rgbToHex(rgb) {
-    return (
-      "#" +
-      rgb
-        .map((x) => {
-          const hex = x.toString(16);
-          return hex.length === 1 ? "0" + hex : hex;
-        })
-        .join("")
-    );
-  }
-  
   const colorStart = hexToRgb("#a22039");
   const colorEnd = hexToRgb("#3b2975");
   let factor = 0;
@@ -130,40 +118,24 @@
       increasing = true;
     }
   
-    const interpolatedColor = rgbToHex(interpolateColor(colorStart, colorEnd, factor));
+    const interpolatedColor = interpolateColor(colorStart, colorEnd, factor);
     const particles = window.pJSDom[0].pJS.particles;
   
-    // Обновляем цвет частиц
-    particles.color.value = interpolatedColor;
-    particles.color.rgb = hexToRgb(interpolatedColor);
+    // Применяем новый цвет к каждой частице
     particles.array.forEach((p) => {
-      p.color.value = interpolatedColor;
-      p.color.rgb = hexToRgb(interpolatedColor);
+      p.color.rgb = {
+        r: interpolatedColor[0],
+        g: interpolatedColor[1],
+        b: interpolatedColor[2]
+      };
+      p.color.value = `rgb(${interpolatedColor[0]}, ${interpolatedColor[1]}, ${interpolatedColor[2]})`;
+      p.stroke_color = p.color; // если stroke включен
     });
   
     requestAnimationFrame(animateColor);
   }
+  
   requestAnimationFrame(animateColor);
-  
-  // ----------- Статистика ----------- //
-  
-  var count_particles, stats, update;
-  stats = new Stats();
-  stats.setMode(0);
-  stats.domElement.style.position = "absolute";
-  stats.domElement.style.left = "0px";
-  stats.domElement.style.top = "0px";
-  document.body.appendChild(stats.domElement);
-  count_particles = document.querySelector(".js-count-particles");
-  update = function () {
-    stats.begin();
-    stats.end();
-    if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) {
-      count_particles.innerText = window.pJSDom[0].pJS.particles.array.length;
-    }
-    requestAnimationFrame(update);
-  };
-  requestAnimationFrame(update);
   </script>
 
 </body>
