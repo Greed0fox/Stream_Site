@@ -30,28 +30,23 @@
     const centerX = w / 2;
     const centerY = h / 2;
     const RADIUS = 250;
-    const PARTICLE_COUNT = 1700;
-
-    const COLORS = [
-      "#a22039", "#a22039", "#a22039", "#a22039", "#a22039",
-      "#67144f", "#67144f", "#67144f",
-      "#3b2975", "#3b2975",
-      "#ca9c6d"
-    ];
+    const PARTICLE_COUNT = 2000;
 
     const ringParticles = [];
     const ambientParticles = [];
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const radialSpread = (Math.random() - 0.5) * 100;
+      const radialSpread = (Math.random() - 0.5) * 80;
       const radius = RADIUS + radialSpread;
+      const yAngle = Math.sin(angle);
+      const color = yAngle < 0 ? `hsl(270, 60%, ${40 + Math.random() * 15}%)` : `hsl(340, 70%, ${55 + Math.random() * 15}%)`;
       ringParticles.push({
         angle,
         baseRadius: radius,
         radius,
         size: 1 + Math.random() * 1.5,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        color,
         offset: Math.random() * 1000,
         speed: 0.001 + Math.random() * 0.002,
         blur: Math.random() * 2,
@@ -60,14 +55,14 @@
     }
 
     // Ambient free-floating particles
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 400; i++) {
       ambientParticles.push({
         x: Math.random() * w,
         y: Math.random() * h,
-        dx: (Math.random() - 0.5) * 0.5,
-        dy: (Math.random() - 0.5) * 0.5,
+        dx: (Math.random() - 0.5) * 0.6,
+        dy: (Math.random() - 0.5) * 0.6,
         size: 1 + Math.random() * 2,
-        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        color: `hsl(${Math.random() * 360}, 60%, 60%)`,
         opacity: 0.2 + Math.random() * 0.4
       });
     }
@@ -76,35 +71,29 @@
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = 'lighter';
 
-      // Rotate angle
       for (const p of ringParticles) {
         p.angle += 0.0005 + p.drift * 0.001;
         const radiusJitter = p.baseRadius + Math.sin(time * p.speed + p.offset) * 10;
-
-        // Occasionally let particles drift in/out of the ring
         const radialOffset = Math.sin(time * p.speed + p.offset) * 20;
         const r = radiusJitter + radialOffset;
 
         const x = centerX + r * Math.cos(p.angle);
         const y = centerY + r * Math.sin(p.angle);
 
-        // Blurring effect closer to center
         const distToCenter = Math.hypot(x - centerX, y - centerY);
-        const blurAmount = Math.max(0, (RADIUS - distToCenter) / 15);
-
+        const blurAmount = Math.max(0, (RADIUS - distToCenter) / 10);
         const alpha = 0.3 + Math.sin(time * p.speed + p.offset) * 0.3;
 
         ctx.beginPath();
         ctx.globalAlpha = Math.max(0, alpha);
         ctx.fillStyle = p.color;
-        ctx.shadowBlur = 5 + blurAmount;
+        ctx.shadowBlur = 10 + blurAmount;
         ctx.shadowColor = p.color;
         ctx.arc(x, y, p.size, 0, Math.PI * 2);
         ctx.fill();
         ctx.closePath();
       }
 
-      // Draw ambient floating particles
       for (const ap of ambientParticles) {
         ap.x += ap.dx;
         ap.y += ap.dy;
