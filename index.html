@@ -40,21 +40,18 @@
     particlesJS("particles-js", {
       particles: {
         number: {
-          value: 350, // больше частиц
+          value: 350,
           density: {
             enable: true,
-            value_area: 350 // немного увеличена область рассеивания
+            value_area: 350
           }
         },
         color: {
           value: [
-            // Основные (чаще встречаются)
             "#a22039", "#a22039", "#a22039", "#a22039", "#a22039",
             "#67144f", "#67144f", "#67144f",
-            
-            // Реже встречающиеся
             "#3b2975", "#3b2975",
-            "#ca9c6d" // один раз — очень редко
+            "#ca9c6d"
           ]
         },
         shape: {
@@ -65,12 +62,12 @@
           }
         },
         opacity: {
-          value: 1,
+          value: 0.8,
           random: true,
           anim: {
             enable: true,
             speed: 1,
-            opacity_min: 0,
+            opacity_min: 0.1,
             sync: false
           }
         },
@@ -78,9 +75,9 @@
           value: 2.5,
           random: true,
           anim: {
-            enable: false,
-            speed: 4,
-            size_min: 0.3,
+            enable: true,
+            speed: 2,
+            size_min: 0.5,
             sync: false
           }
         },
