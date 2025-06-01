@@ -9,7 +9,7 @@
 particlesJS("particles-js", {
   particles: {
     number: {
-      value: 161,
+      value: 210,
       density: { enable: true, value_area: 236.74802907265777 }
     },
     color: { value: "#ff0068" },
