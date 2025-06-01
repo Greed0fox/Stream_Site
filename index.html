@@ -38,31 +38,49 @@
       particles: {
         number: {
           value: 210,
-          density: { enable: true, value_area: 236.74802907265777 }
+          density: {
+            enable: true,
+            value_area: 300 // немного увеличим область для более рассеянного эффекта
+          }
         },
         color: {
           value: [
-            "#a22039", "#a22039", "#a22039",
-            "#3b2975",
-            "#67144f", "#67144f", "#67144f",
-            "#ca9c6d" // этот реже всех
+            "#a22039", "#a22039", "#a22039", // бордовый (основной)
+            "#3b2975",                       // фиолетовый
+            "#67144f", "#67144f", "#67144f", // пурпурный
+            "#ca9c6d"                        // редкий золотистый
           ]
         },
         shape: {
           type: "circle",
-          stroke: { width: 0, color: "#000000" }
+          stroke: {
+            width: 0,
+            color: "#000000"
+          }
         },
         opacity: {
           value: 1,
           random: true,
-          anim: { enable: true, speed: 1, opacity_min: 0, sync: false }
+          anim: {
+            enable: true,
+            speed: 1,
+            opacity_min: 0,
+            sync: false
+          }
         },
         size: {
           value: 3,
           random: true,
-          anim: { enable: false, speed: 4, size_min: 0.3, sync: false }
+          anim: {
+            enable: false,
+            speed: 4,
+            size_min: 0.3,
+            sync: false
+          }
         },
-        line_linked: { enable: false },
+        line_linked: {
+          enable: false
+        },
         move: {
           enable: true,
           speed: 1,
@@ -76,8 +94,12 @@
       interactivity: {
         detect_on: "canvas",
         events: {
-          onhover: { enable: false },
-          onclick: { enable: false },
+          onhover: {
+            enable: false
+          },
+          onclick: {
+            enable: false
+          },
           resize: true
         }
       },
