@@ -34,14 +34,20 @@
   <!-- / Particles -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-   // Создаем две группы частиц с разными конфигами
     particlesJS("particles-js", {
       particles: {
         number: {
           value: 210,
           density: { enable: true, value_area: 236.74802907265777 }
         },
-        color: { value: ["#a22039", "#3b2975"] }, // два цвета одновременно
+        color: {
+          value: [
+            "#a22039", "#a22039", "#a22039",
+            "#3b2975", "#3b2975", "#3b2975",
+            "#67144f", "#67144f", "#67144f",
+            "#ca9c6d" // этот реже всех
+          ]
+        },
         shape: {
           type: "circle",
           stroke: { width: 0, color: "#000000" }
