@@ -37,21 +37,24 @@
   <!-- / Particles -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-   particlesJS("particles-js", {
+    particlesJS("particles-js", {
       particles: {
         number: {
-          value: 350,
+          value: 350, // больше частиц
           density: {
             enable: true,
-            value_area: 350
+            value_area: 350 // немного увеличена область рассеивания
           }
         },
         color: {
           value: [
+            // Основные (чаще встречаются)
             "#a22039", "#a22039", "#a22039", "#a22039", "#a22039",
             "#67144f", "#67144f", "#67144f",
+            
+            // Реже встречающиеся
             "#3b2975", "#3b2975",
-            "#ca9c6d"
+            "#ca9c6d" // один раз — очень редко
           ]
         },
         shape: {
@@ -67,7 +70,7 @@
           anim: {
             enable: true,
             speed: 1,
-            opacity_min: 0.1, // 🔧 минимальное значение для "почти невидимых"
+            opacity_min: 0,
             sync: false
           }
         },
@@ -75,9 +78,9 @@
           value: 2.5,
           random: true,
           anim: {
-            enable: true,
-            speed: 3,
-            size_min: 1.2, // 🔧 меньше = меньше "blur", больше = более размытые фазы
+            enable: false,
+            speed: 4,
+            size_min: 0.3,
             sync: false
           }
         },
