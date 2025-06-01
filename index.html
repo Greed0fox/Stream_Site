@@ -34,124 +34,49 @@
   <!-- / Particles -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-  particlesJS("particles-js", {
-    particles: {
-      number: {
-        value: 210,
-        density: { enable: true, value_area: 236.74802907265777 }
+   // Создаем две группы частиц с разными конфигами
+    particlesJS("particles-js", {
+      particles: {
+        number: {
+          value: 210,
+          density: { enable: true, value_area: 236.74802907265777 }
+        },
+        color: { value: ["#a22039", "#3b2975"] }, // два цвета одновременно
+        shape: {
+          type: "circle",
+          stroke: { width: 0, color: "#000000" }
+        },
+        opacity: {
+          value: 1,
+          random: true,
+          anim: { enable: true, speed: 1, opacity_min: 0, sync: false }
+        },
+        size: {
+          value: 3,
+          random: true,
+          anim: { enable: false, speed: 4, size_min: 0.3, sync: false }
+        },
+        line_linked: { enable: false },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: "none",
+          random: true,
+          straight: false,
+          out_mode: "out",
+          bounce: false
+        }
       },
-      color: { value: "#a22039" },
-      shape: {
-        type: "circle",
-        stroke: { width: 0, color: "#000000" },
-        polygon: { nb_sides: 5 },
-        image: { src: "img/github.svg", width: 100, height: 100 }
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: false },
+          onclick: { enable: false },
+          resize: true
+        }
       },
-      opacity: {
-        value: 1,
-        random: true,
-        anim: { enable: true, speed: 1, opacity_min: 0, sync: false }
-      },
-      size: {
-        value: 3,
-        random: true,
-        anim: { enable: false, speed: 4, size_min: 0.3, sync: false }
-      },
-      line_linked: {
-        enable: false
-      },
-      move: {
-        enable: true,
-        speed: 1,
-        direction: "none",
-        random: true,
-        straight: false,
-        out_mode: "out",
-        bounce: false
-      }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: { enable: false, mode: "bubble" },
-        onclick: { enable: false, mode: "repulse" },
-        resize: true
-      },
-      modes: {
-        grab: { distance: 400, line_linked: { opacity: 1 } },
-        bubble: { distance: 250, size: 0, duration: 2, opacity: 0, speed: 3 },
-        repulse: { distance: 400, duration: 0.4 },
-        push: { particles_nb: 4 },
-        remove: { particles_nb: 2 }
-      }
-    },
-    retina_detect: true
-  });
-  
-  // ----------- Анимация цвета ----------- //
-  
-  function interpolateColor(color1, color2, factor) {
-    return color1.map((c, i) => Math.round(c + factor * (color2[i] - c)));
-  }
-  
-  function hexToRgb(hex) {
-    const bigint = parseInt(hex.replace("#", ""), 16);
-    return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
-  }
-  
-  const colorStart = hexToRgb("#a22039");
-  const colorEnd = hexToRgb("#3b2975");
-  
-  function animateColorRandomly() {
-    const particles = window.pJSDom[0].pJS.particles;
-  
-    particles.array.forEach((p) => {
-      // Инициализация параметров, если их ещё нет
-      if (!p.colorAnim) {
-        p.colorAnim = {
-          factor: Math.random(),
-          increasing: Math.random() > 0.5,
-          delay: Math.floor(Math.random() * 100), // задержка перед обновлением
-          tick: 0
-        };
-      }
-  
-      const anim = p.colorAnim;
-  
-      anim.tick++;
-  
-      // Если не пришло время обновлять — скипаем
-      if (anim.tick < anim.delay) return;
-  
-      // Обновляем factor
-      anim.factor += anim.increasing ? 0.01 : -0.01;
-      if (anim.factor >= 1) {
-        anim.factor = 1;
-        anim.increasing = false;
-        anim.delay = Math.floor(Math.random() * 100); // новая задержка
-        anim.tick = 0;
-      } else if (anim.factor <= 0) {
-        anim.factor = 0;
-        anim.increasing = true;
-        anim.delay = Math.floor(Math.random() * 100); // новая задержка
-        anim.tick = 0;
-      }
-  
-      // Вычисляем цвет
-      const interpolatedColor = interpolateColor(colorStart, colorEnd, anim.factor);
-      p.color.rgb = {
-        r: interpolatedColor[0],
-        g: interpolatedColor[1],
-        b: interpolatedColor[2]
-      };
-      p.color.value = `rgb(${interpolatedColor[0]}, ${interpolatedColor[1]}, ${interpolatedColor[2]})`;
-      p.stroke_color = p.color;
+      retina_detect: true
     });
-  
-    requestAnimationFrame(animateColorRandomly);
-  }
-  
-  requestAnimationFrame(animateColorRandomly);
   </script>
 
 </body>
