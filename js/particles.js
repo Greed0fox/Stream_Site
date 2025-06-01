@@ -6,7 +6,9 @@
 /* How to use? : Check the GitHub README
 /* v2.0.0
 /* ----------------------------------------------- */
-particlesJS("particles-js", {
+particlesJS("particles-js",
+    
+    {
     particles: {
       number: {
         value: 210,
