@@ -1,30 +1,112 @@
 <!DOCTYPE HTML>
 <html lang="ru">
 <head>
+
+  <!-- Materialize -->
+  <link rel="stylesheet" href="css/materialize.min.css">
+
   <!-- Theme's Stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
+
   <!-- Theme JS -->
+  <script src="js/particles.js"></script>
   <title>MrTrivix</title>
   <!-- Meta Info -->
   <meta charset="UTF-8">
   <meta name="author" content="MrTrivix">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="js/jquery.min.js"></script>
 </head>
-
 <style>
     body {
-        background-image: url("wp2101793-particle-wallpapers.png");
+        background-image: url('https://cdn.discordapp.com/attachments/1354461208006099067/1378310782995005553/wp2101793-particle-wallpapers.png?ex=683c2372&is=683ad1f2&hm=aeb7c9cfadeb5a75ec4461c7778a91f8a6e0493d5a2ff7b0f01cef2a9b3b6541&');
         background-size: cover; /* чтобы картинка заполнила весь фон */
         background-repeat: no-repeat; /* чтобы не повторялась */
         background-position: absolute; /* чтобы была по центру */
-  }
+}
 </style>
 
 <body>
-  <!-- Партеклы -->
-  <script src="js/particles.js"></script>
-  <!-- Партеклы -->
+  <div id="particles-js"></div>
+
+
+  <script src="js/particles-app.js"></script>
+  <!-- / Particles -->
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: {
+          value: 350,
+          density: {
+            enable: true,
+            value_area: 350
+          }
+        },
+        color: {
+          value: [
+            "#a22039", "#a22039", "#a22039", "#a22039", "#a22039",
+            "#67144f", "#67144f", "#67144f",
+            "#3b2975", "#3b2975",
+            "#ca9c6d"
+          ]
+        },
+        shape: {
+          type: "circle",
+          stroke: {
+            width: 0,
+            color: "#000000"
+          }
+        },
+        opacity: {
+          value: 0.8,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 1,
+            opacity_min: 0.1,
+            sync: false
+          }
+        },
+        size: {
+          value: 2.5,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 2,
+            size_min: 0.5,
+            sync: false
+          }
+        },
+        line_linked: {
+          enable: false
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: "none",
+          random: true,
+          straight: false,
+          out_mode: "out",
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: {
+            enable: false
+          },
+          onclick: {
+            enable: false
+          },
+          resize: true
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+
 </body>
 
 </html>
