@@ -6,72 +6,92 @@
 /* How to use? : Check the GitHub README
 /* v2.0.0
 /* ----------------------------------------------- */
-particlesJS("particles-js",
-    
-    {
-    particles: {
-      number: {
-        value: 350,
-        density: { enable: true, value_area: 236.74802907265777 }
-      },
-      color: {
-        value: [
-          "#a22039", "#a22039", "#a22039", "#a22039", "#a22039",
-          "#67144f", "#67144f", "#67144f",
-          "#3b2975", "#3b2975",
-          "#ca9c6d" 
-        ]
-      },
-      shape: {
-        type: "circle",
-        stroke: {
-          width: 0,
-          color: "#000000" 
-        }
-      },
-      opacity: {
-        value: 0.8,
-        random: true,
-        anim: { 
+particlesJS("particles-js", {
+
+      particles: {
+        number: {
+          value: 350,
+          density: {
+            enable: true,
+            value_area: 350
+          }
+        },
+        color: {
+          value: [
+            "#a22039", "#a22039", "#a22039", "#a22039", "#a22039",
+            "#67144f", "#67144f", "#67144f",
+            "#3b2975", "#3b2975",
+            "#ca9c6d"
+          ]
+        },
+        shape: {
+          type: "circle",
+          stroke: {
+            width: 0,
+            color: "#000000"
+          }
+        },
+        opacity: {
+          value: 0.8,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 1,
+            opacity_min: 0.1,
+            sync: false
+          }
+        },
+        size: {
+          value: 2.5,
+          random: true,
+          anim: {
+            enable: true,
+            speed: 2,
+            size_min: 0.5,
+            sync: false
+          }
+        },
+        line_linked: {
+          enable: false
+        },
+        move: {
           enable: true,
           speed: 1,
-          opacity_min: 0.1,
-          sync: false
+          direction: "none",
+          random: true,
+          straight: false,
+          out_mode: "out",
+          bounce: false
         }
       },
-      size: {
-        value: 2.5,
-        random: true,
-        anim: {
-          enable: true,
-          speed: 2,
-          size_min: 0.5,
-          sync: false
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: {
+            enable: false
+          },
+          onclick: {
+            enable: false
+          },
+          resize: true
         }
       },
-      line_linked: {
-        enable: false,
-      },
-      move: {
-        enable: true,
-        speed: 1,
-        direction: "none",
-        random: true,
-        straight: false,
-        out_mode: "out",
-        bounce: false,
-      }
-    },
-    interactivity: {
-      detect_on: "canvas",
-      events: {
-        onhover: {
-            enable: false,
-        },
-        onclick: {
-            enable: false,
-        },
-        resize: true
-      }
-    },
-    retina_detect: true
+      retina_detect: true
+    }
+
+var count_particles, stats, update; 
+stats = new Stats; stats.setMode(0); 
+stats.domElement.style.position = 'absolute'; 
+stats.domElement.style.left = '0px'; 
+stats.domElement.style.top = '0px'; 
+document.body.appendChild(stats.domElement); 
+count_particles = document.querySelector('.js-count-particles'); 
+update = function() { 
+	stats.begin(); 
+	stats.end(); 
+	if (window.pJSDom[0].pJS.particles && window.pJSDom[0].pJS.particles.array) { 
+		count_particles.innerText = window.pJSDom[0].pJS.particles.array.length; 
+	} 
+	requestAnimationFrame(update); 
+}; 
+requestAnimationFrame(update);
