@@ -1,8 +1,14 @@
 /* ---- reset ---- */
 body {
+  background: #000 url("wp2101793-particle-wallpapers.png") no-repeat center center;
+  background-size: cover;
   margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
   font: normal 75% Arial, Helvetica, sans-serif;
 }
+
 canvas {
   display: block;
   vertical-align: bottom;
